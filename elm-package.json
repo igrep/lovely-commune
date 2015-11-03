@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "summary": "Simulate the Lovely Commune in Dokidoki! PreCure.",
+  "repository": "https://github.com/igrep/lovely-commune.git",
+  "license": "BSD3",
+  "source-directories": ["src"],
+  "exposed-modules": [],
+  "exposed-modules": [],
+  "dependencies": {
+    "elm-lang/core": "2.0.1 <= v < 3.0.0",
+    "evancz/elm-svg": "2.0.0 <= v < 3.0.0",
+    "evancz/start-app": "2.0.0 <= v < 3.0.0"
+  },
+  "elm-version": "0.15.0 <= v < 0.17.0"
+}
