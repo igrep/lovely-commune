@@ -92,8 +92,8 @@ cE =
 
 actionStack : List Action
 actionStack =
-  Reset :: ( join Reset <| List.map ( List.map Trace ) [cL, cO, cV, cE] ) ++ [Complete]
+  ( join [Reset] <| List.map ( List.map Trace ) [cL, cO, cV, cE] ) ++ [Complete]
 
 
-join : a -> List (List a) -> List a
-join x = List.intersperse [x] >> List.concat
+join : List a -> List (List a) -> List a
+join x = List.intersperse x >> List.concat
