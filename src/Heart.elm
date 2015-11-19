@@ -1,6 +1,14 @@
 module Heart where
 
-type alias Heart =
+
+type alias Model =
+  { heartState : HeartState
+  , leftActions : List Action
+  , nextAction : Action
+  }
+
+
+type alias HeartState =
   { left : PartState
   , right : PartState
   , upperLeft : PartState
@@ -19,6 +27,27 @@ type PartState = Off | Ready | On
 
 
 type Action = Reset | Trace Part | Complete
+
+
+init : Model
+init =
+  { heartState = turnedOffHeartState
+  , leftActions = actionStack
+  , nextAction = Reset
+  }
+
+
+turnedOffHeartState : HeartState
+turnedOffHeartState =
+  { left = Off
+  , right = Off
+  , upperLeft = Off
+  , upperRight = Off
+  , bottomLeft = Off
+  , bottomRight = Off
+  , centerLeft = Off
+  , centerRight = Off
+  }
 
 
 cL : List Part
