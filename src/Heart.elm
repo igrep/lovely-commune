@@ -2,25 +2,29 @@ module Heart where
 
 
 type alias Model =
-  { heartState : HeartState
+  { heartState  : HeartState
   , leftActions : List Action
-  , nextAction : Action
+  , nextAction  : Action
   }
 
 
 type alias HeartState =
-  { left : PartState
-  , right : PartState
-  , upperLeft : PartState
-  , upperRight : PartState
-  , bottomLeft : PartState
+  { left        : PartState
+  , right       : PartState
+  , upperLeft   : PartState
+  , upperRight  : PartState
+  , bottomLeft  : PartState
   , bottomRight : PartState
-  , centerLeft : PartState
+  , centerLeft  : PartState
   , centerRight : PartState
   }
 
 
-type Part = Left | Right | UpperLeft | UpperRight | BottomLeft | BottomRight | CenterLeft | CenterRight
+type Part =
+    Left       | Right
+  | UpperLeft  | UpperRight
+  | BottomLeft | BottomRight
+  | CenterLeft | CenterRight
 
 
 type PartState = Off | Ready | On
@@ -31,21 +35,21 @@ type Action = Reset | Trace Part | Complete
 
 init : Model
 init =
-  { heartState = turnedOffHeartState
+  { heartState  = turnedOffHeartState
   , leftActions = actionStack
-  , nextAction = Reset
+  , nextAction  = Reset
   }
 
 
 turnedOffHeartState : HeartState
 turnedOffHeartState =
-  { left = Off
-  , right = Off
-  , upperLeft = Off
-  , upperRight = Off
-  , bottomLeft = Off
+  { left        = Off
+  , right       = Off
+  , upperLeft   = Off
+  , upperRight  = Off
+  , bottomLeft  = Off
   , bottomRight = Off
-  , centerLeft = Off
+  , centerLeft  = Off
   , centerRight = Off
   }
 
