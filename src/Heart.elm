@@ -167,7 +167,11 @@ view a m =
 
   in
     svg
-      []
+      [ A.version "1.1"
+      , A.width "574.49701"
+      , A.height "527.37146"
+      , A.viewBox "0 0 574.49699 527.37143"
+      ]
       [ left       , right
       , upperLeft  , upperRight
       , bottomLeft , bottomRight
