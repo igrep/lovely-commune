@@ -209,10 +209,10 @@ view a m =
   in
     svg
       []
-      [ left      , right
-      , upperLeft , upperRight
-      , bottomLeft, bottomRight
-      , centerLeft, centerRight
+      [ left       , right
+      , upperLeft  , upperRight
+      , bottomLeft , bottomRight
+      , centerLeft , centerRight
       ]
 
 
