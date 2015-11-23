@@ -111,13 +111,13 @@ update a m =
       case a of
         Reset ->
           { m
-            | heartState <- turnedOffHeartState
-            , leftActions <- left
+            | heartState = turnedOffHeartState
+            , leftActions = left
           }
         Trace part ->
           { m
-            | heartState <- tracePart part m.heartState
-            , leftActions <- left
+            | heartState = tracePart part m.heartState
+            , leftActions = left
           }
     [] ->
       m
@@ -126,14 +126,14 @@ update a m =
 tracePart : Part -> HeartState -> HeartState
 tracePart p hs =
   case p of
-    Left        -> { hs | left        <- On }
-    Right       -> { hs | right       <- On }
-    UpperLeft   -> { hs | upperLeft   <- On }
-    UpperRight  -> { hs | upperRight  <- On }
-    BottomLeft  -> { hs | bottomLeft  <- On }
-    BottomRight -> { hs | bottomRight <- On }
-    CenterLeft  -> { hs | centerLeft  <- On }
-    CenterRight -> { hs | centerRight <- On }
+    Left        -> { hs | left        = On }
+    Right       -> { hs | right       = On }
+    UpperLeft   -> { hs | upperLeft   = On }
+    UpperRight  -> { hs | upperRight  = On }
+    BottomLeft  -> { hs | bottomLeft  = On }
+    BottomRight -> { hs | bottomRight = On }
+    CenterLeft  -> { hs | centerLeft  = On }
+    CenterRight -> { hs | centerRight = On }
 
 
 view : Signal.Address Action -> Model -> Html
