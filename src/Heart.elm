@@ -1,12 +1,18 @@
-module Heart where
+module Heart
+  ( init
+  , update
+  , view
+  ) where
 
 import Debug exposing (..)
+import Effects exposing (Effects, Never)
 import Html exposing (Html)
 import Signal
 import StartApp.Simple
 import Svg exposing (..)
 import Svg.Attributes as A
 import Svg.Events as E
+import Task exposing (andThen)
 
 
 type alias Model =
@@ -40,11 +46,14 @@ type PartState = Off | Ready | On
 type Action = Reset | Trace Part
 
 
-init : Model
+init : (Model, Effects Action)
 init =
-  { heartState  = turnedOffHeartState
-  , leftActions = actionStack
-  }
+  (
+    { heartState  = turnedOffHeartState
+    , leftActions = frameStack
+    }
+  , Effects.none
+  )
 
 
 turnedOffHeartState : HeartState
@@ -100,28 +109,37 @@ cE =
   ]
 
 
-actionStack : List Action
-actionStack =
+frameStack : List Action
+frameStack =
   join [Reset] <| List.map ( List.map Trace ) [cL, cO, cV, cE]
 
 
-update : Action -> Model -> Model
+update : Action -> Model -> (Model, Effects Action)
 update a m =
   case m.leftActions of
     next :: left ->
       case a of
         Reset ->
-          { m
-            | heartState = turnedOffHeartState
-            , leftActions = left
-          }
+          ( { m
+              | heartState = turnedOffHeartState
+              , leftActions = left
+            }
+          , Effects.none
+          )
         Trace part ->
-          { m
-            | heartState = tracePart part m.heartState
-            , leftActions = left
-          }
+          let tracedM =
+                { m
+                | heartState = tracePart part m.heartState
+                , leftActions = left
+                }
+          in
+          case left of
+            Reset :: _ ->
+              ( tracedM, resetEventually )
+            _ ->
+              ( tracedM, Effects.none )
     [] ->
-      m
+      ( m, Effects.none )
 
 
 tracePart : Part -> HeartState -> HeartState
@@ -137,11 +155,15 @@ tracePart p hs =
     CenterRight -> { hs | centerRight = On }
 
 
+resetEventually : Effects Action
+resetEventually =
+  Effects.task <| Task.sleep 400 `andThen` \_ -> Task.succeed Reset
+
+
 nextPart : Model -> Maybe Part
 nextPart m =
   case List.head m.leftActions of
     Just (Trace part) -> Just part
-    -- Just Reset -> nextPart m
     _ -> Nothing
 
 
