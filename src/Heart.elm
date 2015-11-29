@@ -40,7 +40,7 @@ type Part =
   | CenterLeft | CenterRight
 
 
-type PartState = Off | Ready | On
+type PartState = Off | On
 
 
 type Action = Reset | Trace Part
