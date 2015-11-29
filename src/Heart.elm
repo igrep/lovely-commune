@@ -262,13 +262,12 @@ viewPart a svgId svgD drawnPart nextPart drawnPartState =
           then [ E.onMouseOver <| Signal.message a ( Trace drawnPart ) ]
           else []
 
-      fillStyle =
+      className =
         if drawnPartState == On
-          then "fill:#ff0000;fill-opacity:1;"
-          else "fill:#ffffff;fill-opacity:0;"
-      partStyle = A.style <| fillStyle ++ "fill-rule:evenodd;stroke:#ff0000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+          then "heart-part heart-part--filled_true"
+          else "heart-part heart-part--filled_false"
   in
-  path ( onMouseOver ++ [partStyle, A.d svgD, A.id svgId] ) []
+  path ( onMouseOver ++ [A.class className, A.d svgD, A.id svgId] ) []
 
 
 isTurnedOn : PartState -> Bool
