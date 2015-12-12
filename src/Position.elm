@@ -35,7 +35,7 @@ sendPointedElementId address position =
     `andThen` \maybeId ->
       case maybeId of
         Just id -> Signal.send address id
-        _ -> Task.succeed ()
+        _       -> Task.succeed ()
 
 
 toPair : Touch.Touch -> (Int, Int)
@@ -46,4 +46,4 @@ getIdFromPoint : Position -> Task x (Maybe String)
 getIdFromPoint position =
   case position of
     Just (x, y) -> Native.Position.getIdFromPoint x y
-    _ -> Task.succeed Nothing
+    _           -> Task.succeed Nothing
