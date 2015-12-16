@@ -2,7 +2,8 @@ module Position
   ( mouseTouch
   , Position
   , PointedElementInfo
-  , pointedElementId
+  , pointedElementInfos
+  , keepSendingPointedElementInfo
   ) where
 
 import Maybe
@@ -19,14 +20,18 @@ type alias Position = (Int, Int)
 type alias ElementId = String
 
 type alias PointedElementInfo =
-  { position  : Position
-  , elementId : ElementId
+  { position : Position
+  , id       : ElementId
   }
 
 
-pointedElementId : Signal.Address PointedElementInfo -> Signal (Task x ())
-pointedElementId address =
-  Signal.map (sendPointedElement address) mouseTouch
+pointedElementInfos : Signal.Mailbox PointedElementInfo
+pointedElementInfos = Signal.mailbox <| PointedElementInfo (0, 0) ""
+
+
+keepSendingPointedElementInfo : Signal (Task x ())
+keepSendingPointedElementInfo =
+  Signal.map (sendPointedElement pointedElementInfos.address) mouseTouch
 
 
 sendPointedElement : Signal.Address PointedElementInfo -> Maybe Position -> Task x ()
