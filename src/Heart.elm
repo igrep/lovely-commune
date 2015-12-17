@@ -118,11 +118,11 @@ update a m =
                     else
                       m
                   _ ->
-                    m
+                    { m | leftDirections = left }
           in
           case left of
-            Nothing :: left' ->
-              ( { tracedM | leftDirections = left' }, resetEventually )
+            Nothing :: _ ->
+              ( tracedM, resetEventually )
             _ ->
               ( tracedM, Effects.none )
     [] ->
