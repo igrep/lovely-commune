@@ -29,7 +29,7 @@ Elm.Native.Position.make = function (localRuntime) {
       )
     };
 
-  };
+  }
 
   return localRuntime.Native.Position.values;
 };
