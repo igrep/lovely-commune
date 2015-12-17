@@ -18,6 +18,7 @@ import Task exposing (andThen)
 
 import Position
 import Heart.Part as Part
+import Heart.Part.Constants as C
 
 
 type alias Model =
@@ -52,41 +53,41 @@ turnedOffHeartState =
 
 cL : List Direction
 cL =
-  [ Direction "left"        Part.FromTopLeft
-  , Direction "bottomLeft"  Part.FromTopLeft
-  , Direction "bottomRight" Part.FromTopLeft
+  [ Direction C.left        Part.FromTopLeft
+  , Direction C.bottomLeft  Part.FromTopLeft
+  , Direction C.bottomRight Part.FromTopLeft
   ]
 
 
 cO : List Direction
 cO =
-  [ Direction "bottomLeft"  Part.FromBottomRight
-  , Direction "left"        Part.FromBottomRight
-  , Direction "upperLeft"   Part.FromTopLeft
-  , Direction "upperRight"  Part.FromTopLeft
-  , Direction "right"       Part.FromTopLeft
-  , Direction "bottomRight" Part.FromBottomRight
+  [ Direction C.bottomLeft  Part.FromBottomRight
+  , Direction C.left        Part.FromBottomRight
+  , Direction C.upperLeft   Part.FromTopLeft
+  , Direction C.upperRight  Part.FromTopLeft
+  , Direction C.right       Part.FromTopLeft
+  , Direction C.bottomRight Part.FromBottomRight
   ]
 
 
 cV : List Direction
 cV =
-  [ Direction "left"        Part.FromTopLeft
-  , Direction "bottomLeft"  Part.FromTopLeft
-  , Direction "bottomRight" Part.FromTopLeft
-  , Direction "right"       Part.FromBottomRight
+  [ Direction C.left        Part.FromTopLeft
+  , Direction C.bottomLeft  Part.FromTopLeft
+  , Direction C.bottomRight Part.FromTopLeft
+  , Direction C.right       Part.FromBottomRight
   ]
 
 
 cE : List Direction
 cE =
-  [ Direction "upperLeft"   Part.FromTopLeft
-  , Direction "upperRight"  Part.FromTopLeft
-  , Direction "left"        Part.FromTopLeft
-  , Direction "centerLeft"  Part.FromTopLeft
-  , Direction "centerRight" Part.FromTopLeft
-  , Direction "bottomLeft"  Part.FromTopLeft
-  , Direction "bottomRight" Part.FromTopLeft
+  [ Direction C.upperLeft   Part.FromTopLeft
+  , Direction C.upperRight  Part.FromTopLeft
+  , Direction C.left        Part.FromTopLeft
+  , Direction C.centerLeft  Part.FromTopLeft
+  , Direction C.centerRight Part.FromTopLeft
+  , Direction C.bottomLeft  Part.FromTopLeft
+  , Direction C.bottomRight Part.FromTopLeft
   ]
 
 
@@ -129,7 +130,7 @@ update a m =
 
 tracePart : Part.Id -> HeartState -> HeartState
 tracePart id heartState =
-  Dict.update id (Maybe.map (Part.fill 100)) heartState
+  Dict.update id (Maybe.map (Part.fill C.filled)) heartState
 
 
 resetEventually : Effects Action
