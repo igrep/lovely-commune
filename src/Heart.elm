@@ -101,9 +101,7 @@ update a m =
     current :: left ->
       case a of
         Reset ->
-          ( { m
-              | heartState = turnedOffHeartState
-            }
+          ( { m | heartState = turnedOffHeartState }
           , Effects.none
           )
         Trace pointedElement ->
