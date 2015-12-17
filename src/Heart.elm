@@ -80,8 +80,8 @@ cV =
 
 cE : List Direction
 cE =
-  [ Direction "upperRight"  Part.FromTopLeft
-  , Direction "upperLeft"   Part.FromTopLeft
+  [ Direction "upperLeft"   Part.FromTopLeft
+  , Direction "upperRight"  Part.FromTopLeft
   , Direction "left"        Part.FromTopLeft
   , Direction "centerLeft"  Part.FromTopLeft
   , Direction "centerRight" Part.FromTopLeft
