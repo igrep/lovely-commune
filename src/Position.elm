@@ -1,6 +1,5 @@
 module Position
-  ( mouseTouch
-  , Position
+  ( Position
   , PointedElementInfo
   , pointedElementInfos
   , keepSendingPointedElementInfo
