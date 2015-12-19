@@ -58,6 +58,11 @@ getIdFromPoint xy =
   Native.Position.getIdFromPoint xy
 
 
+convertViewportPointToSvgPoint : Position -> Task x Position
+convertViewportPointToSvgPoint xy =
+  Native.Position.convertViewportPointToSvgPoint xy
+
+
 mouseTouch : Signal (Maybe Position)
 mouseTouch =
   let mouse = Signal.map Just Mouse.position
