@@ -106,26 +106,28 @@ update a m =
           , Effects.none
           )
         Trace pointedElement ->
-          let tracedM =
-                case current of
-                  Just direction ->
-                    if pointedElement.id == direction.targetId then
-                      { m
-                      | heartState = tracePart pointedElement.id m.heartState
-                      , leftDirections = left
-                      }
-                    else
-                      m
+          case current of
+            Just direction ->
+              if pointedElement.id == direction.targetId then
+                let tracedM =
+                  { m
+                  | heartState = tracePart pointedElement.id m.heartState
+                  , leftDirections = left
+                  }
+                in
+                case left of
+                  Nothing :: _ ->
+                    (tracedM, resetEventually)
                   _ ->
-                    { m | leftDirections = left }
-          in
-          case left of
-            Nothing :: _ ->
-              ( tracedM, resetEventually )
+                    (tracedM, Effects.none)
+              else
+                (m, Effects.none)
             _ ->
-              ( tracedM, Effects.none )
+              ( { m | leftDirections = left }
+              , Effects.none
+              )
     [] ->
-      ( m, Effects.none )
+      (m, Effects.none)
 
 
 tracePart : Part.Id -> HeartState -> HeartState
