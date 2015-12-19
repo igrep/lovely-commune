@@ -54,8 +54,8 @@ getPointedElement maybePosition =
 
 
 getIdFromPoint : Position -> Task x (Maybe String)
-getIdFromPoint (x, y) =
-  Native.Position.getIdFromPoint x y
+getIdFromPoint xy =
+  Native.Position.getIdFromPoint xy
 
 
 mouseTouch : Signal (Maybe Position)
