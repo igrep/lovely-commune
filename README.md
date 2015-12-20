@@ -1,6 +1,6 @@
 # lovely-commune
 
-Simulater of Lovely Commune in Dokidoki! PreCure.
+Simulator of Lovely Commune in Dokidoki! PreCure.
 
 ## How to Play
 
