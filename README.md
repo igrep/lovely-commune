@@ -5,7 +5,7 @@ Simulater of Lovely Commune in Dokidoki! PreCure.
 
 ## How to play
 
-Trace like below :arrow_down:.
+Trace L O V E like below :arrow_down:.
 
 ![](/how2play.gif)
 
