@@ -5,7 +5,7 @@ Simulator of Lovely Commune in Dokidoki! PreCure.
 ## How to Play
 
 0. Go to http://lovely-commune.igreque.info/ (Mobile browsers are also supported).
-
+0. Adjust the window size to show the entire heart symbol
 0. Trace `L O V E` like below :arrow_down:.
 
 ![](/how2play.gif)
