@@ -2,6 +2,13 @@
 
 Simulater of Lovely Commune in Dokidoki! PreCure.
 
+
+## How to play
+
+Trace like below :arrow_down:.
+
+![](/how2play.gif)
+
 ## Related Video
 
 [Doki Doki Precure - Cure Heart Transformation - YouTube](https://www.youtube.com/watch?v=D-zcCk8kxkY)
