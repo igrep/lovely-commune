@@ -28,7 +28,7 @@ type alias Model =
 
 type alias HeartState = Dict Part.Id Part.Model
 
-type Action = Trace Position.PointedElementInfo | Reset
+type Action = Trace Position.PointedSvgElementInfo | Reset
 
 type alias Direction =
   { targetId  : Part.Id
@@ -110,10 +110,7 @@ update a m =
             Just direction ->
               if pointedElement.id == direction.targetId then
                 let tracedM =
-                  { m
-                  | heartState = tracePart pointedElement.id m.heartState
-                  , leftDirections = left
-                  }
+                      tracePart pointedElement direction.traceFrom  m
                 in
                 case left of
                   Nothing :: _ ->
@@ -130,9 +127,35 @@ update a m =
       (m, Effects.none)
 
 
-tracePart : Part.Id -> HeartState -> HeartState
-tracePart id heartState =
-  Dict.update id (Maybe.map (Part.fill C.filled)) heartState
+tracePart : Position.PointedSvgElementInfo -> Part.Direction -> Model -> Model
+tracePart pointedSvgElementInfo traceFrom m =
+  let pointedId = pointedSvgElementInfo.id
+      tracedM =
+        { m
+        | heartState =
+          Dict.update
+            pointedId
+            (Maybe.map (Part.traceAt pointedSvgElementInfo.svgPosition traceFrom))
+            m.heartState
+        }
+  in
+  case Dict.get pointedId tracedM.heartState of
+    Just part ->
+      if Part.isFilled part then
+        popDirection tracedM
+      else
+        tracedM
+    _ ->
+      tracedM
+
+
+popDirection : Model -> Model
+popDirection m =
+  case m.leftDirections of
+    (_::left) ->
+      { m | leftDirections = left }
+    _ ->
+      m
 
 
 resetEventually : Effects Action
@@ -142,13 +165,18 @@ resetEventually =
 
 view : Signal.Address Action -> Model -> Html
 view _ m =
-    svg
-      [ A.version "1.1"
-      , A.width   "100%"
-      , A.height  "100%"
-      , A.viewBox "0 0 574.49699 527.37143"
-      ]
-      (Dict.values m.heartState |> List.map Part.view)
+  let parts = Dict.values m.heartState
+      contents =
+        [ defs [] (List.map Part.viewGradient parts)
+        ] ++ (List.map Part.viewPath parts)
+  in
+  svg
+    [ A.version "1.1"
+    , A.width   "100%"
+    , A.height  "100%"
+    , A.viewBox "0 0 574.49699 527.37143"
+    ]
+    contents
 
 
 join : List a -> List (List a) -> List a

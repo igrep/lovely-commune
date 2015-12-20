@@ -12,12 +12,15 @@
   stroke-opacity: 1;
 }
 
-.heart-part--filled_true {
-  fill: #ff0000;
-  fill-opacity: 1;
+.heart-gradiationStop {
+  stop-color: #ff0000;
+  stop-opacity: 1;
 }
 
-.heart-part--filled_false {
-  fill: #ffffff;
-  fill-opacity: 0;
+.heart-gradiationStop--traced_true {
+  stop-opacity: 1;
+}
+
+.heart-gradiationStop--traced_false {
+  stop-opacity: 0;
 }

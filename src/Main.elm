@@ -1,7 +1,7 @@
 module Main (main) where
 
 import Heart
-import Position exposing (pointedElementInfos)
+import Position exposing (pointedSvgElementInfos)
 
 import Effects exposing (Never)
 import Task exposing (Task)
@@ -9,7 +9,7 @@ import Signal
 
 import StartApp
 
-import Debug
+import Debug exposing (..)
 
 
 app =
@@ -25,12 +25,12 @@ main = app.html
 
 
 traces : Signal Heart.Action
-traces = Signal.map Heart.Trace pointedElementInfos.signal
+traces = Signal.map Heart.Trace pointedSvgElementInfos.signal
 
 
 port keepSendingPointedElementInfo : Signal (Task x ())
 port keepSendingPointedElementInfo =
-  Position.keepSendingPointedElementInfo
+  Position.keepSendingPointedSvgElementInfo
 
 
 port tasks : Signal (Task Never ())

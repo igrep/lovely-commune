@@ -1,8 +1,8 @@
 module Position
   ( Position
-  , PointedElementInfo
-  , pointedElementInfos
-  , keepSendingPointedElementInfo
+  , PointedSvgElementInfo
+  , pointedSvgElementInfos
+  , keepSendingPointedSvgElementInfo
   ) where
 
 import Maybe
@@ -11,6 +11,8 @@ import Signal exposing (Signal)
 import Touch
 import Task exposing (Task, andThen)
 
+import Debug exposing (..)
+
 import Native.Position
 
 
@@ -18,37 +20,43 @@ type alias Position = (Int, Int)
 
 type alias ElementId = String
 
-type alias PointedElementInfo =
-  { position : Position
-  , id       : ElementId
+type alias PointedSvgElementInfo =
+  { svgPosition : Position
+  , id          : ElementId
   }
 
 
-pointedElementInfos : Signal.Mailbox PointedElementInfo
-pointedElementInfos = Signal.mailbox <| PointedElementInfo (0, 0) ""
+pointedSvgElementInfos : Signal.Mailbox PointedSvgElementInfo
+pointedSvgElementInfos = Signal.mailbox <| PointedSvgElementInfo (0, 0) ""
 
 
-keepSendingPointedElementInfo : Signal (Task x ())
-keepSendingPointedElementInfo =
-  Signal.map (sendPointedElement pointedElementInfos.address) mouseTouch
+keepSendingPointedSvgElementInfo : Signal (Task x ())
+keepSendingPointedSvgElementInfo =
+  Signal.map (sendPointedSvgElement pointedSvgElementInfos.address) mouseTouch
 
 
-sendPointedElement : Signal.Address PointedElementInfo -> Maybe Position -> Task x ()
-sendPointedElement address maybePosition =
-  getPointedElement maybePosition
+sendPointedSvgElement : Signal.Address PointedSvgElementInfo -> Maybe Position -> Task x ()
+sendPointedSvgElement address maybePosition =
+  getPointedSvgElement maybePosition
     `andThen` \maybeElement ->
       case maybeElement of
         Just element -> Signal.send address element
         _            -> noOp
 
 
-getPointedElement : Maybe Position -> Task x (Maybe PointedElementInfo)
-getPointedElement maybePosition =
+getPointedSvgElement : Maybe Position -> Task x (Maybe PointedSvgElementInfo)
+getPointedSvgElement maybePosition =
   case maybePosition of
     Just position ->
-      (Task.map << Maybe.map)
-        (PointedElementInfo position)
-        (getIdFromPoint position)
+      getIdFromPoint position
+        `andThen` \maybeId ->
+          case maybeId of
+            Just id ->
+              convertViewportPointToSvgPoint position
+                `andThen` \svgPosition ->
+                  Task.succeed <| Just <| PointedSvgElementInfo svgPosition id
+            _ ->
+              Task.succeed Nothing
     _ ->
       Task.succeed Nothing
 
