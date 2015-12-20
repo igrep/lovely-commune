@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "description": "Simulater of Lovely Commune in Dokidoki! PreCure.",
   "main": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:igrep/lovely-commune.git"
+  },
   "dependencies": {
     "animate.css": "^3.4.0"
   },
