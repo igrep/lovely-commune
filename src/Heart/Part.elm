@@ -10,6 +10,7 @@ import Position exposing (Position)
 
 type alias Model =
   { filled             : Percentage      -- how much filled by tracing
+  , isPulsating        : Bool
   , id                 : Id              -- id attribute of <path>
   , positionComparator : Position -> Int -- used to compute what percentage of the part is filled when having its point touched
   , gradientEnd1       : Position        -- upper or left vertex at which the gradient starts or ends
@@ -29,14 +30,25 @@ traceAt : Position -> Direction -> Model -> Model
 traceAt _ _ m = { m | filled = C.filled }
 
 
+pulsate : Model -> Model
+pulsate m =
+  { m | isPulsating = True, filled = C.filled }
+
+
 isFilled : Model -> Bool
 isFilled m = m.filled >= C.filled
 
 
 viewPath : Model -> Svg
 viewPath m =
+  let class =
+        if m.isPulsating then
+          "heart-part" ++ " animated flash"
+        else
+          "heart-part"
+  in
   path
-    [ A.class "heart-part"
+    [ A.class class
     , A.d m.draw
     , A.id m.id
     , A.style <| "fill: url(#" ++ (gradientId m) ++ ")"
@@ -91,7 +103,7 @@ initModels =
 
 
 init : Id -> (Position -> Int) -> Position -> Position -> String -> Model
-init = Model C.empty
+init = Model C.empty False
 
 
 initLeft : Model

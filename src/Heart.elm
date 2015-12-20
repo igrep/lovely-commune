@@ -28,7 +28,8 @@ type alias Model =
 
 type alias HeartState = Dict Part.Id Part.Model
 
-type Action = Trace Position.PointedSvgElementInfo | Reset
+type Action =
+  Trace Position.PointedSvgElementInfo | Reset | Complete
 
 type alias Direction =
   { targetId  : Part.Id
@@ -98,14 +99,14 @@ directionStack =
 
 update : Action -> Model -> (Model, Effects Action)
 update a m =
-  case m.leftDirections of
-    current :: left ->
-      case a of
-        Reset ->
-          ( { m | heartState = turnedOffHeartState }
-          , Effects.none
-          )
-        Trace pointedElement ->
+  case a of
+    Reset ->
+      ( { m | heartState = turnedOffHeartState }
+      , Effects.none
+      )
+    Trace pointedElement ->
+      case m.leftDirections of
+        current :: left ->
           case current of
             Just direction ->
               if pointedElement.id == direction.targetId then
@@ -122,9 +123,11 @@ update a m =
             _ ->
               ( { m | leftDirections = left }
               , Effects.none
-              )
-    [] ->
-      (m, Effects.none)
+            )
+        [] ->
+          (m, pulateEventually)
+    Complete ->
+      (pulsateCenter m, Effects.none)
 
 
 tracePart : Position.PointedSvgElementInfo -> Part.Direction -> Model -> Model
@@ -158,9 +161,27 @@ popDirection m =
       m
 
 
+pulsateCenter : Model -> Model
+pulsateCenter m =
+  let m' = { m | heartState = turnedOffHeartState }
+      m'' = { m' | heartState = Dict.update C.centerLeft (Maybe.map Part.pulsate) m'.heartState }
+  in
+  { m'' | heartState = Dict.update C.centerRight (Maybe.map Part.pulsate) m''.heartState }
+
+
 resetEventually : Effects Action
 resetEventually =
-  Effects.task <| Task.sleep 600 `andThen` \_ -> Task.succeed Reset
+  affectEventually 600 Reset
+
+
+pulateEventually : Effects Action
+pulateEventually =
+  affectEventually 900 Complete
+
+
+affectEventually : Float -> Action -> Effects Action
+affectEventually duration a =
+  Effects.task <| Task.sleep duration `andThen` \_ -> Task.succeed a
 
 
 view : Signal.Address Action -> Model -> Html

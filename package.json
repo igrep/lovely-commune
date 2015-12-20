@@ -1,0 +1,15 @@
+{
+  "name": "lovely-commune",
+  "version": "0.1.0",
+  "description": "Simulater of Lovely Commune in Dokidoki! PreCure.",
+  "main": "",
+  "dependencies": {
+    "animate.css": "^3.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yuji Yamamoto",
+  "license": "MIT"
+}
