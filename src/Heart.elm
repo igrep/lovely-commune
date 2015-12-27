@@ -125,7 +125,7 @@ update a m =
               , Effects.none
             )
         [] ->
-          (m, pulateEventually)
+          (m, pulsateEventually)
     Complete ->
       (pulsateCenter m, Effects.none)
 
@@ -174,8 +174,8 @@ resetEventually =
   affectEventually 600 Reset
 
 
-pulateEventually : Effects Action
-pulateEventually =
+pulsateEventually : Effects Action
+pulsateEventually =
   affectEventually 900 Complete
 
 
