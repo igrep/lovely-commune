@@ -1,10 +1,10 @@
-module Heart.Part where
+module LovelyCommune.Heart.Part where
 
 import Svg exposing (..)
 import Svg.Attributes as A
 import Svg.Events as E
 
-import Heart.Part.Constants as C
+import LovelyCommune.Heart.Part.Constants as C
 import Position exposing (Position)
 
 

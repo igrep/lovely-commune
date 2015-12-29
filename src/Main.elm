@@ -1,9 +1,10 @@
 module Main (main) where
 
-import Heart
-import Position exposing (pointedSvgElementInfos)
+import LovelyCommune
+import Position
 
 import Effects exposing (Never)
+import Html exposing (Html)
 import Task exposing (Task)
 import Signal
 
@@ -12,20 +13,18 @@ import StartApp
 import Debug exposing (..)
 
 
+app : StartApp.App LovelyCommune.Model
 app =
   StartApp.start
-    { init = Heart.init
-    , update = Heart.update
-    , view = Heart.view
-    , inputs = [traces]
+    { init = LovelyCommune.init
+    , update = LovelyCommune.update
+    , view = LovelyCommune.view
+    , inputs = LovelyCommune.inputs ++ [hasShoutedPrecureLoveLink]
     }
 
 
+main : Signal Html
 main = app.html
-
-
-traces : Signal Heart.Action
-traces = Signal.map Heart.Trace pointedSvgElementInfos.signal
 
 
 port keepSendingPointedElementInfo : Signal (Task x ())
@@ -35,3 +34,11 @@ port keepSendingPointedElementInfo =
 
 port tasks : Signal (Task Never ())
 port tasks = app.tasks
+
+
+port precureLoveLink : Signal Bool
+
+
+hasShoutedPrecureLoveLink : Signal LovelyCommune.Action
+hasShoutedPrecureLoveLink =
+  Signal.map (always LovelyCommune.PrecureLoveLink) <| Signal.filter identity False precureLoveLink

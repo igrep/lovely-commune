@@ -1,4 +1,4 @@
-module Heart.Part.Constants where
+module LovelyCommune.Heart.Part.Constants where
 
 
 filled : Float

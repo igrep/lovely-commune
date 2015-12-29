@@ -1,8 +1,10 @@
-module Heart
+module LovelyCommune.Heart
   ( init
   , update
   , view
+  , traces
   , Action(..)
+  , Model
   ) where
 
 import Debug exposing (..)
@@ -16,9 +18,9 @@ import Svg.Attributes as A
 import Svg.Events as E
 import Task exposing (andThen)
 
-import Position
-import Heart.Part as Part
-import Heart.Part.Constants as C
+import Position exposing (pointedSvgElementInfos)
+import LovelyCommune.Heart.Part as Part
+import LovelyCommune.Heart.Part.Constants as C
 
 
 type alias Model =
@@ -37,14 +39,11 @@ type alias Direction =
   }
 
 
-init : (Model, Effects Action)
+init : Model
 init =
-  (
-    { heartState     = turnedOffHeartState
-    , leftDirections = directionStack
-    }
-  , Effects.none
-  )
+  { heartState     = turnedOffHeartState
+  , leftDirections = directionStack
+  }
 
 
 turnedOffHeartState : HeartState
@@ -198,6 +197,10 @@ view _ m =
     , A.viewBox "0 0 574.49699 527.37143"
     ]
     contents
+
+
+traces : Signal Action
+traces = Signal.map Trace pointedSvgElementInfos.signal
 
 
 join : List a -> List (List a) -> List a
