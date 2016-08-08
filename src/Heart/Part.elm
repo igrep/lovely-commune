@@ -1,4 +1,4 @@
-module Heart.Part where
+module Heart.Part exposing (..)
 
 import Svg exposing (..)
 import Svg.Attributes as A

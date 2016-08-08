@@ -1,9 +1,9 @@
-module Position
+module Position exposing
   ( Position
   , PointedSvgElementInfo
   , pointedSvgElementInfos
   , keepSendingPointedSvgElementInfo
-  ) where
+  )
 
 import Maybe
 import Mouse

@@ -1,9 +1,9 @@
-module Heart
+module Heart exposing
   ( init
   , update
   , view
   , Action(..)
-  ) where
+  )
 
 import Debug exposing (..)
 import Dict exposing (Dict)
