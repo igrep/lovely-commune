@@ -1,0 +1,9 @@
+pages:
+  stage: deploy
+  script:
+  - "echo Do nothing. Just show the public directory"
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
